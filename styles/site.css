@@ -201,6 +201,23 @@ nav {
             display: flex;
             align-items: center;
             padding-top: 96px;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: url("../assets/images/multi-cloud-fusion-home.png");
+            background-repeat: no-repeat;
+            background-size: 22%;
+            background-position: center center;
+            opacity: 0.11;
+            pointer-events: none;
+            filter: saturate(1.08) contrast(1.04);
+            z-index: -1;
+            transform: rotate(-10deg);
+            transform-origin: center center;
         }
 
         .hero-content {
@@ -832,6 +849,10 @@ nav {
                 min-height: auto;
                 padding-top: 118px;
                 padding-bottom: 72px;
+            }
+
+            .hero::before {
+                background-size: 68%;
             }
 
             .cloud-badges {
