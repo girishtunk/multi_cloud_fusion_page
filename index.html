@@ -147,26 +147,27 @@
                     <p>Be among the first to experience unified cloud storage. Launch coming soon!</p>
                 </div>
 
-                <form class="signup-form" id="waitlistForm">
+                <form class="signup-form" id="waitlistForm" action="https://docs.google.com/forms/d/e/1FAIpQLSejpC-hrqrqwohxNXwDur2FBC39U8AxiRtdQPI-8RJxGXoQDQ/formResponse" 
+                    method="post" target="hidden_iframe">
                     <div class="form-group">
                         <label for="fullName">Full Name</label>
-                        <input type="text" id="fullName" name="fullName" required placeholder="Enter your name">
+                        <input type="text" id="fullName" name="entry.1394893291" value="" required placeholder="Enter your name">
                     </div>
 
                     <div class="form-group">
                         <label for="email">Email Address</label>
-                        <input type="email" id="email" name="email" required placeholder="gtlabs72@gmail.com">
+                        <input type="email" id="email" name="entry.817892139" value="" required placeholder="you@example.com">
                     </div>
 
                     <div class="form-group">
                         <p class="group-label">Type of OS</p>
                         <div class="option-grid" role="group" aria-label="Type of OS">
                             <label class="option-item" for="osIos">
-                                <input type="checkbox" id="osIos" name="osType" value="iOS">
+                                <input type="radio" id="osIos" name="entry.227036352" value="iOS" required>
                                 <span class="px-2">iOS</span>
                             </label>
                             <label class="option-item" for="osAndroid">
-                                <input type="checkbox" id="osAndroid" name="osType" value="Android">
+                                <input type="radio" id="osAndroid" name="entry.227036352" value="Android" required>
                                 <span class="px-2">Android</span>
                             </label>
                         </div>
@@ -176,12 +177,16 @@
                         <p class="group-label">When do you want access?</p>
                         <div class="option-grid" role="group" aria-label="Access timing">
                             <label class="option-item" for="accessBeta">
-                                <input type="checkbox" id="accessBeta" name="accessTiming" value="Beta">
+                                <input type="radio" id="accessBeta" name="entry.1101397424" value="Beta access" required>
                                 <span class="px-2">Beta access</span>
                             </label>
                             <label class="option-item" for="accessLaunch">
-                                <input type="checkbox" id="accessLaunch" name="accessTiming" value="After full launch">
-                                <span class="px-2">After full launch</span>
+                                <input type="radio" id="accessLaunch" name="entry.1101397424" value="Full launch" required>
+                                <span class="px-2">Full launch</span>
+                            </label>
+                            <label class="option-item" for="accessBoth">
+                                <input type="radio" id="accessBoth" name="entry.1101397424" value="Beta + Full launch" required>
+                                <span class="px-2">Beta + Full launch</span>
                             </label>
                         </div>
                     </div>
@@ -189,7 +194,7 @@
                     <p class="form-error" id="formError" role="alert" aria-live="polite"></p>
 
                     <div class="gdpr-consent">
-                        <input type="checkbox" id="gdprConsent" name="gdprConsent" required>
+                        <input type="checkbox" id="gdprConsent" name="entry.2098413280" value="Enabled" required>
                         <label for="gdprConsent">
                             I agree to receive product updates and marketing communications. I understand I can unsubscribe at any time. By signing up, I accept the <a href="privacy.html">Privacy Policy</a> and <a href="terms.html">Terms of Service</a>.
                         </label>
@@ -198,9 +203,10 @@
                     <button type="submit" class="submit-btn" id="submitBtn">Join Waitlist</button>
 
                     <div class="success-message" id="successMessage">
-                        <i class="bi bi-check-circle-fill" aria-hidden="true"></i>Welcome aboard! Check your email for confirmation.
+                        <i class="bi bi-check-circle-fill" aria-hidden="true"></i>Done ! You shall hear from us, very soon.
                     </div>
                 </form>
+                <iframe name="hidden_iframe" style="display:none;" title="Google Form submission target"></iframe>
             </div>
         </div>
     </section>
@@ -222,8 +228,6 @@
     <script src="./scripts/app.js" defer></script>
 </body>
 </html>
-
-
 
 
 

@@ -515,11 +515,28 @@ nav {
     border-color: var(--accent);
 }
 
-.option-item input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
+.option-item input[type="checkbox"],
+.option-item input[type="radio"] {
+    width: 17px;
+    height: 17px;
     margin: 0;
     accent-color: var(--accent);
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.option-item input:checked + span {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.option-item:has(input:checked) {
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 13%, var(--input-bg));
+}
+
+.option-item:has(input:focus-visible) {
+    box-shadow: var(--ring);
 }
 
 .form-error {

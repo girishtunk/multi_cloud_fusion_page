@@ -150,8 +150,8 @@
                 const successMessage = document.getElementById('successMessage');
                 const formError = document.getElementById('formError');
                 const form = this;
-                const osTypes = getCheckedValues('osType');
-                const accessTiming = getCheckedValues('accessTiming');
+                const osTypes = getCheckedValuesByIds(['osIos', 'osAndroid']);
+                const accessTiming = getCheckedValuesByIds(['accessBeta', 'accessLaunch']);
 
                 formError.style.display = 'none';
                 formError.textContent = '';
@@ -163,52 +163,41 @@
                 }
 
                 if (accessTiming.length === 0) {
-                    formError.textContent = 'Please select beta access or after full launch.';
+                    formError.textContent = 'Please select Beta access or Full launch.';
                     formError.style.display = 'block';
                     return;
                 }
                 
-                // Get form data
-                const formData = {
-                    fullName: document.getElementById('fullName').value,
-                    email: document.getElementById('email').value,
-                    osTypes,
-                    accessTiming,
-                    gdprConsent: document.getElementById('gdprConsent').checked,
-                    timestamp: new Date().toISOString()
-                };
-                
                 // Disable submit button
                 submitBtn.disabled = true;
-                submitBtn.textContent = 'Joining...';
-                
-                // Simulate API call (replace with your actual endpoint)
+                submitBtn.textContent = 'Submitting...';
+
+                // Submit directly to Google Form endpoint (targeted to hidden iframe).
+                form.submit();
+
+                successMessage.style.display = 'block';
+                form.reset();
+                formError.style.display = 'none';
+                formError.textContent = '';
+
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Join Waitlist';
+
                 setTimeout(() => {
-                    console.log('Waitlist signup:', formData);
-                    
-                    // Show success message
-                    successMessage.style.display = 'block';
-                    form.reset();
-                    formError.style.display = 'none';
-                    formError.textContent = '';
-                    
-                    // Reset button
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Join Waitlist';
-                    
-                    // Hide success message after 5 seconds
-                    setTimeout(() => {
-                        successMessage.style.display = 'none';
-                    }, 5000);
-                    
-                    // TODO: Send data to your backend/email service
-                    // Example: fetch('/api/waitlist', { method: 'POST', body: JSON.stringify(formData) })
-                }, 1500);
+                    successMessage.style.display = 'none';
+                }, 5000);
             });
         }
 
         function getCheckedValues(name) {
             return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`))
+                .map((input) => input.value);
+        }
+
+        function getCheckedValuesByIds(ids) {
+            return ids
+                .map((id) => document.getElementById(id))
+                .filter((input) => input && input.checked)
                 .map((input) => input.value);
         }
 
