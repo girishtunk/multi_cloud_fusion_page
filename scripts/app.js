@@ -36,68 +36,71 @@
         });
 
         // Form submission handling
-        document.getElementById('waitlistForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const submitBtn = document.getElementById('submitBtn');
-            const successMessage = document.getElementById('successMessage');
-            const formError = document.getElementById('formError');
-            const form = this;
-            const osTypes = getCheckedValues('osType');
-            const accessTiming = getCheckedValues('accessTiming');
-
-            formError.style.display = 'none';
-            formError.textContent = '';
-
-            if (osTypes.length === 0) {
-                formError.textContent = 'Please select at least one OS type.';
-                formError.style.display = 'block';
-                return;
-            }
-
-            if (accessTiming.length === 0) {
-                formError.textContent = 'Please select beta access or after full launch.';
-                formError.style.display = 'block';
-                return;
-            }
-            
-            // Get form data
-            const formData = {
-                fullName: document.getElementById('fullName').value,
-                email: document.getElementById('email').value,
-                osTypes,
-                accessTiming,
-                gdprConsent: document.getElementById('gdprConsent').checked,
-                timestamp: new Date().toISOString()
-            };
-            
-            // Disable submit button
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Joining...';
-            
-            // Simulate API call (replace with your actual endpoint)
-            setTimeout(() => {
-                console.log('Waitlist signup:', formData);
+        const waitlistForm = document.getElementById('waitlistForm');
+        if (waitlistForm) {
+            waitlistForm.addEventListener('submit', function(e) {
+                e.preventDefault();
                 
-                // Show success message
-                successMessage.style.display = 'block';
-                form.reset();
+                const submitBtn = document.getElementById('submitBtn');
+                const successMessage = document.getElementById('successMessage');
+                const formError = document.getElementById('formError');
+                const form = this;
+                const osTypes = getCheckedValues('osType');
+                const accessTiming = getCheckedValues('accessTiming');
+
                 formError.style.display = 'none';
                 formError.textContent = '';
+
+                if (osTypes.length === 0) {
+                    formError.textContent = 'Please select at least one OS type.';
+                    formError.style.display = 'block';
+                    return;
+                }
+
+                if (accessTiming.length === 0) {
+                    formError.textContent = 'Please select beta access or after full launch.';
+                    formError.style.display = 'block';
+                    return;
+                }
                 
-                // Reset button
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Join Waitlist';
+                // Get form data
+                const formData = {
+                    fullName: document.getElementById('fullName').value,
+                    email: document.getElementById('email').value,
+                    osTypes,
+                    accessTiming,
+                    gdprConsent: document.getElementById('gdprConsent').checked,
+                    timestamp: new Date().toISOString()
+                };
                 
-                // Hide success message after 5 seconds
+                // Disable submit button
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Joining...';
+                
+                // Simulate API call (replace with your actual endpoint)
                 setTimeout(() => {
-                    successMessage.style.display = 'none';
-                }, 5000);
-                
-                // TODO: Send data to your backend/email service
-                // Example: fetch('/api/waitlist', { method: 'POST', body: JSON.stringify(formData) })
-            }, 1500);
-        });
+                    console.log('Waitlist signup:', formData);
+                    
+                    // Show success message
+                    successMessage.style.display = 'block';
+                    form.reset();
+                    formError.style.display = 'none';
+                    formError.textContent = '';
+                    
+                    // Reset button
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Join Waitlist';
+                    
+                    // Hide success message after 5 seconds
+                    setTimeout(() => {
+                        successMessage.style.display = 'none';
+                    }, 5000);
+                    
+                    // TODO: Send data to your backend/email service
+                    // Example: fetch('/api/waitlist', { method: 'POST', body: JSON.stringify(formData) })
+                }, 1500);
+            });
+        }
 
         function getCheckedValues(name) {
             return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`))
