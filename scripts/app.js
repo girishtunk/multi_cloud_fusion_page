@@ -1,3 +1,5 @@
+        const ANALYTICS_CONSENT_KEY = 'analyticsConsent';
+
         // Theme toggle functionality
         function toggleTheme() {
             const body = document.body;
@@ -21,6 +23,107 @@
             themeToggle.setAttribute('aria-label', isLight ? 'Switch to dark mode' : 'Switch to light mode');
         }
 
+        function getAnalyticsConsent() {
+            try {
+                return localStorage.getItem(ANALYTICS_CONSENT_KEY);
+            } catch (error) {
+                return null;
+            }
+        }
+
+        function setAnalyticsConsent(value) {
+            try {
+                localStorage.setItem(ANALYTICS_CONSENT_KEY, value);
+            } catch (error) {
+                // Ignore localStorage failures and keep runtime behavior safe.
+            }
+        }
+
+        function applyAnalyticsConsent() {
+            if (getAnalyticsConsent() === 'granted' && typeof window.initAnalytics === 'function') {
+                window.initAnalytics();
+            }
+        }
+
+        function removeConsentBanner() {
+            const banner = document.getElementById('consentBanner');
+            if (banner) {
+                banner.remove();
+            }
+        }
+
+        function createConsentBanner() {
+            if (document.getElementById('consentBanner')) {
+                return;
+            }
+
+            const banner = document.createElement('section');
+            banner.id = 'consentBanner';
+            banner.className = 'consent-banner';
+            banner.setAttribute('role', 'dialog');
+            banner.setAttribute('aria-live', 'polite');
+            banner.setAttribute('aria-label', 'Analytics consent');
+
+            banner.innerHTML = `
+                <p>
+                    We use analytics to improve the website and app experience.
+                    Review our <a href="privacy.html">Privacy Policy</a>, <a href="terms.html">Terms of Service</a>,
+                    and <a href="gdpr.html">GDPR Compliance</a> pages.
+                </p>
+                <div class="consent-actions">
+                    <button type="button" class="consent-btn consent-btn-primary" id="consentAccept">Accept</button>
+                    <button type="button" class="consent-btn consent-btn-secondary" id="consentDecline">Decline</button>
+                </div>
+            `;
+
+            document.body.appendChild(banner);
+
+            const acceptBtn = document.getElementById('consentAccept');
+            const declineBtn = document.getElementById('consentDecline');
+
+            acceptBtn?.addEventListener('click', () => {
+                setAnalyticsConsent('granted');
+                applyAnalyticsConsent();
+                removeConsentBanner();
+            });
+
+            declineBtn?.addEventListener('click', () => {
+                setAnalyticsConsent('denied');
+                if (typeof window.disableAnalyticsTracking === 'function') {
+                    window.disableAnalyticsTracking();
+                }
+                removeConsentBanner();
+            });
+        }
+
+        function initConsentFlow() {
+            const consent = getAnalyticsConsent();
+
+            if (consent === 'granted') {
+                applyAnalyticsConsent();
+                return;
+            }
+
+            if (consent === 'denied') {
+                return;
+            }
+
+            createConsentBanner();
+        }
+
+        function initConsentManagerControls() {
+            document.addEventListener('click', (event) => {
+                const trigger = event.target.closest('.manage-consent');
+                if (!trigger) {
+                    return;
+                }
+
+                event.preventDefault();
+                removeConsentBanner();
+                createConsentBanner();
+            });
+        }
+
         // Load saved theme preference
         window.addEventListener('DOMContentLoaded', () => {
             const savedTheme = localStorage.getItem('theme');
@@ -33,6 +136,8 @@
             initHeaderScrollState();
 
             initRevealAnimations();
+            initConsentFlow();
+            initConsentManagerControls();
         });
 
         // Form submission handling
@@ -108,7 +213,7 @@
         }
 
         // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
