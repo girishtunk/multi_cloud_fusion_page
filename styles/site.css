@@ -659,6 +659,35 @@ nav {
             flex-wrap: wrap;
         }
 
+        .social-badges {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .social-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.84rem;
+            font-weight: 700;
+            transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+        }
+
+        .social-badge:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
         .footer-links a {
             color: var(--text-secondary);
             text-decoration: none;
@@ -884,6 +913,15 @@ nav {
 
     .footer-links {
         gap: 14px;
+    }
+
+    .social-badges {
+        gap: 8px;
+    }
+
+    .social-badge {
+        font-size: 0.8rem;
+        padding: 7px 12px;
     }
 
     .info-page {
